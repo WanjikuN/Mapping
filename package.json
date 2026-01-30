@@ -12,6 +12,9 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "leaflet": "^1.9.4",
+    "leaflet-draw": "^1.0.4",
+    "leaflet-minimap": "^3.6.1",
+    "leaflet-mouse-position": "^1.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-leaflet": "^5.0.0",
