@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Map from "./pages/MapContainer/Map";
 
 function App() {
-
   return (
     <>
-      <h1 className="text-3xl font-bold text-red-600">
-        Tailwind is working 
-      </h1>
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={<Map />}
+        />
+      </Routes>
     </>
   );
 }
