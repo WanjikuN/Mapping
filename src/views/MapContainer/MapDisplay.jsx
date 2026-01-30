@@ -9,48 +9,26 @@ import "leaflet/dist/leaflet.css";
 
 import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
-// Geojson Data
-const dataGeoJSON = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      properties: { name: "Town Center" },
-      geometry: {
-        type: "Point",
-        coordinates: [36.8219, -1.2921],
-      },
-    },
-    {
-      type: "Feature",
-      properties: { name: "Main Road" },
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [36.8, -1.3],
-          [36.82, -1.29],
-          [36.84, -1.28],
-        ],
-      },
-    },
-    {
-      type: "Feature",
-      properties: { name: "Residential Area" },
-      geometry: {
-        type: "Polygon",
-        coordinates: [
-          [
-            [36.8, -1.3],
-            [36.85, -1.3],
-            [36.85, -1.25],
-            [36.8, -1.25],
-            [36.8, -1.3],
-          ],
-        ],
-      },
-    },
-  ],
+const ZoomToLayers = ({ geoLayers, activeLayers }) => {
+  const map = useMap();
+
+  React.useEffect(() => {
+    const activeGeoJSON = geoLayers
+      .filter((layer) => activeLayers[layer.id])
+      .map((layer) => L.geoJSON(layer.data));
+
+    if (activeGeoJSON.length === 0) return;
+
+    const group = L.featureGroup(activeGeoJSON);
+    map.fitBounds(group.getBounds(), {
+      padding: [40, 40],
+      animate: true,
+    });
+  }, [map, geoLayers, activeLayers]);
+
+  return null;
 };
+
 // Fit bounds
 const FitBounds = ({ geojson }) => {
   const map = useMap();
@@ -106,36 +84,42 @@ const CustomControls = () => {
   return null;
 };
 // Map Component
-const MapDisplay = () => {
+const MapDisplay = ({ geoLayers, activeLayers }) => {
   return (
     <div className="h-full w-[70%] bg-white shadow-md rounded p-1">
       <MapContainer
-        center={[0, 0]} // temporary, fitBounds will override
+        center={[0, 0]}
         zoom={2}
         scrollWheelZoom
         className="w-full h-full"
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+          attribution="&copy; OpenStreetMap"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <GeoJSON
-          data={dataGeoJSON}
-          style={{
-            color: "#2563eb",
-            weight: 2,
-            fillColor: "#93c5fd",
-            fillOpacity: 0.5,
-          }}
-          onEachFeature={(feature, layer) => {
-            if (feature.properties?.name) {
-              layer.bindPopup(feature.properties.name);
-            }
-          }}
-        />
+        {geoLayers.map(
+          (layer) =>
+            activeLayers[layer.id] && (
+              <GeoJSON
+                key={layer.id}
+                data={layer.data}
+                style={{
+                  color: "#2563eb",
+                  weight: 2,
+                  fillColor: "#93c5fd",
+                  fillOpacity: 0.5,
+                }}
+                onEachFeature={(feature, layerObj) => {
+                  if (feature.properties?.name) {
+                    layerObj.bindPopup(feature.properties.name);
+                  }
+                }}
+              />
+            )
+        )}
+        <ZoomToLayers geoLayers={geoLayers} activeLayers={activeLayers} />
         <CustomControls />
-        <FitBounds geojson={dataGeoJSON} />
       </MapContainer>
     </div>
   );
