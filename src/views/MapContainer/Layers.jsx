@@ -2,7 +2,7 @@ import  * as React from 'react'
 import { BsLayersFill } from "react-icons/bs";
 const Layers = ({ geoLayers, activeLayers, toggleLayer }) => {
   return (
-    <div className="h-full w-[30%] shadow-md bg-white rounded p-1">
+    <div className="h-auto lg:h-full w-full lg:w-[30%] shadow-md bg-white rounded p-1">
       <div className=" bg-[rgba(82,97,41,0.425)] w-full h-full  p-4">
         <h3 className="font-semibold mb-4 uppercase border-b border-white/40 shadow-lg flex flex-row justify-start items-center gap-2 py-2 pl-1">
           <BsLayersFill size={20} className="text-[rgba(82,97,41,0.97)] " />{" "}

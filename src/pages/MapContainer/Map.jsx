@@ -18,8 +18,11 @@ const Map = () => {
   };
 
   return (
-    <div className="flex flex-row h-screen w-screen p-20 gap-6">
-      <MapDisplay geoLayers={geoLayers} activeLayers={activeLayers} />
+    <div className="flex flex-col lg:flex-row h-screen w-screen p-4 lg:p-20 gap-4 lg:gap-6">
+      <MapDisplay
+        geoLayers={geoLayers}
+        activeLayers={activeLayers}
+      />
       <Layers
         geoLayers={geoLayers}
         activeLayers={activeLayers}
