@@ -29,17 +29,6 @@ const ZoomToLayers = ({ geoLayers, activeLayers }) => {
   return null;
 };
 
-// Fit bounds
-const FitBounds = ({ geojson }) => {
-  const map = useMap();
-
-  React.useEffect(() => {
-    const layer = L.geoJSON(geojson);
-    map.fitBounds(layer.getBounds(), { padding: [40, 40] });
-  }, [map, geojson]);
-
-  return null;
-};
 const CustomControls = () => {
   const map = useMap();
 
@@ -91,6 +80,7 @@ const MapDisplay = ({ geoLayers, activeLayers }) => {
         center={[0, 0]}
         zoom={2}
         scrollWheelZoom
+        zoomControl={false}
         className="w-full h-full"
       >
         <TileLayer
