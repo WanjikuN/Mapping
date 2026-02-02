@@ -1,13 +1,13 @@
 import * as React from "react";
-import MapDisplay from "../../views/MapContainer/MapDisplay";
 import Layers from "../../views/MapContainer/Layers";
+import MapDisplay from "../../views/MapContainer/MapDisplay";
 import { geoLayers } from "./geoLayers";
 
 const Map = () => {
   const [activeLayers, setActiveLayers] = React.useState({
     town_center: true,
-    main_road: true,
-    residential: true,
+    main_road: false,
+    residential: false,
   });
 
   const toggleLayer = (id) => {

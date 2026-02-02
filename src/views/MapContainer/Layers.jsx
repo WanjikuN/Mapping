@@ -8,12 +8,13 @@ const Layers = ({ geoLayers, activeLayers, toggleLayer }) => {
         {geoLayers.map((layer) => (
           <label
             key={layer.id}
-            className="accent-blue-300/40  flex items-center gap-2 mb-2 cursor-pointer"
+            className="accent-blue-300/40  flex items-center gap-4 mb-2 cursor-pointer"
           >
             <input
               type="checkbox"
               checked={activeLayers[layer.id]}
               onChange={() => toggleLayer(layer.id)}
+              className="scale-150 cursor-pointer"
             />
             <span>{layer.label}</span>
           </label>
