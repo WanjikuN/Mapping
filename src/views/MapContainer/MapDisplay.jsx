@@ -75,7 +75,7 @@ const CustomControls = () => {
 // Map Component
 const MapDisplay = ({ geoLayers, activeLayers }) => {
   return (
-    <div className="h-full w-[70%] bg-white shadow-md rounded p-1">
+    <div className="h-full w-full lg:w-[70%] bg-white shadow-md rounded p-1">
       <MapContainer
         center={[0, 0]}
         zoom={2}
