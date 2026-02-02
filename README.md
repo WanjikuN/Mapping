@@ -1,16 +1,42 @@
-# React + Vite
+# React Leaflet Map with Layers
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fully interactive **Leaflet map** built with React, featuring multiple **GeoJSON layers**, map controls, and layer toggling functionality.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## **Features**
 
-## React Compiler
+- Interactive map with **Leaflet** and **React-Leaflet**.  
+- Toggleable **GeoJSON layers** (e.g., town centers, roads, residential areas).  
+- Useful **map controls**:  
+  - Mini-map  
+  - Zoom  
+  - Mouse position  
+  - Scale  
+- **Automatic zoom** to fit visible layers.  
+- Styled with **TailwindCSS** for a clean, responsive UI.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## **Demo**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+![Map Preview](src/assets/map-preview.png)
+
+
+---
+
+## **Getting Started**
+
+### **1. Clone the repository**
+
+```bash
+git clone https://github.com/WanjikuN/Mapping.git
+cd Mapping
+
+```
+
+---
+
+####  For a detailed step-by-step guide, check out my Medium article:
+
+[Adding Layers to a Map in React Using Leaflet](https://medium.com/@wanjikunpatricia/adding-layers-to-a-map-in-react-using-leaflet-0e8e3ce038e7)
