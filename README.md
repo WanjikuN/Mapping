@@ -20,7 +20,7 @@ A fully interactive **Leaflet map** built with React, featuring multiple **GeoJS
 
 ## **Demo**
 
-![Map Preview](src/assets/map-preview.png)
+![Map Preview](src/assets/map-preview-baseMaps.png)
 
 
 ---
