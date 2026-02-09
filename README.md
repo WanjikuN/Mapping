@@ -35,8 +35,40 @@ cd Mapping
 
 ```
 
+### **2. Install dependencies**
+
+```bash
+npm install
+```
+
+### **3. Run the development server**
+
+```bash
+npm run dev
+```
+
+### **4. Running Tests**
+
+Run all tests:
+
+```bash
+npx vitest
+```
+
+Run tests in watch mode:
+
+```bash
+npx vitest --watch
+```
+
+Run tests with coverage:
+
+```bash
+npx vitest --coverage
+```
+
 ---
 
-####  For a detailed step-by-step guide, check out my Medium article:
+#### For a detailed step-by-step guide, check out my Medium article
 
 [Adding Layers to a Map in React Using Leaflet](https://medium.com/@wanjikunpatricia/adding-layers-to-a-map-in-react-using-leaflet-0e8e3ce038e7)
