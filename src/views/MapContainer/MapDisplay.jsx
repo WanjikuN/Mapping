@@ -75,7 +75,7 @@ const CustomControls = () => {
 // Map Component
 const MapDisplay = ({ geoLayers, activeLayers }) => {
   return (
-    <div className="h-full w-full lg:w-[70%] bg-white shadow-md rounded p-1">
+    <div data-testid="map-display" className="h-full w-full lg:w-[70%] bg-white shadow-md rounded p-1">
       <MapContainer
         center={[0, 0]}
         zoom={2}
@@ -93,6 +93,7 @@ const MapDisplay = ({ geoLayers, activeLayers }) => {
             activeLayers[layer.id] && (
               <GeoJSON
                 key={layer.id}
+                data-layer-id={layer.id}
                 data={layer.data}
                 style={{
                   color: "#2563eb",
