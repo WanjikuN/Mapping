@@ -8,6 +8,8 @@ A fully interactive **Leaflet map** built with React, featuring multiple **GeoJS
 
 - Interactive map with **Leaflet** and **React-Leaflet**.  
 - Toggleable **GeoJSON layers** (e.g., town centers, roads, residential areas).  
+- **Base map toggle** with support for Satellite, Streets, Terrain, Hybrid, Dark, and Light.  
+- **Map search** powered by `leaflet-geosearch` and OpenStreetMap, with a toggle button to show/hide the search bar.  
 - Useful **map controls**:  
   - Mini-map  
   - Zoom  
@@ -20,7 +22,7 @@ A fully interactive **Leaflet map** built with React, featuring multiple **GeoJS
 
 ## **Demo**
 
-![Map Preview](src/assets/map-preview-baseMaps.png)
+![Map Preview](src/assets/map-preview-search.png)
 
 
 ---
