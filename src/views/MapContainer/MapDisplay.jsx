@@ -7,37 +7,40 @@ import "leaflet-mouse-position";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
+import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
+import "leaflet-geosearch/dist/geosearch.css";
+
 
 const BASE_MAP_CONFIG = {
   satellite: {
-    url: 'https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-    attribution: '&copy; Google'
+    url: "https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+    attribution: "&copy; Google",
   },
   streets: {
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    subdomains: ['a', 'b', 'c'],
-    attribution: '&copy; OpenStreetMap'
+    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    subdomains: ["a", "b", "c"],
+    attribution: "&copy; OpenStreetMap",
   },
   terrain: {
-    url: 'https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-    attribution: '&copy; Google'
+    url: "https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+    attribution: "&copy; Google",
   },
   hybrid: {
-    url: 'https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-    attribution: '&copy; Google'
+    url: "https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+    attribution: "&copy; Google",
   },
   dark: {
-    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-    subdomains: ['a', 'b', 'c', 'd'],
-    attribution: '&copy; CartoDB'
+    url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    subdomains: ["a", "b", "c", "d"],
+    attribution: "&copy; CartoDB",
   },
   light: {
-    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-    subdomains: ['a', 'b', 'c', 'd'],
-    attribution: '&copy; CartoDB'
+    url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    subdomains: ["a", "b", "c", "d"],
+    attribution: "&copy; CartoDB",
   },
 };
 
@@ -68,16 +71,17 @@ const ZoomToLayers = React.memo(({ geoLayers, activeLayers }) => {
   return null;
 });
 
-ZoomToLayers.displayName = 'ZoomToLayers';
+ZoomToLayers.displayName = "ZoomToLayers";
 
 const CustomControls = React.memo(({ selectedBaseMap }) => {
   const map = useMap();
 
   React.useEffect(() => {
-    const currentConfig = BASE_MAP_CONFIG[selectedBaseMap] || BASE_MAP_CONFIG.satellite;
-    
+    const currentConfig =
+      BASE_MAP_CONFIG[selectedBaseMap] || BASE_MAP_CONFIG.satellite;
+
     const miniMapLayer = L.tileLayer(currentConfig.url, {
-      subdomains: currentConfig.subdomains
+      subdomains: currentConfig.subdomains,
     });
 
     const miniMap = new L.Control.MiniMap(miniMapLayer, {
@@ -111,10 +115,11 @@ const CustomControls = React.memo(({ selectedBaseMap }) => {
   return null;
 });
 
-CustomControls.displayName = 'CustomControls';
+CustomControls.displayName = "CustomControls";
 
 const DynamicTileLayer = React.memo(({ selectedBaseMap }) => {
-  const currentMap = BASE_MAP_CONFIG[selectedBaseMap] || BASE_MAP_CONFIG.satellite;
+  const currentMap =
+    BASE_MAP_CONFIG[selectedBaseMap] || BASE_MAP_CONFIG.satellite;
 
   return (
     <TileLayer
@@ -126,47 +131,116 @@ const DynamicTileLayer = React.memo(({ selectedBaseMap }) => {
   );
 });
 
-DynamicTileLayer.displayName = 'DynamicTileLayer';
+DynamicTileLayer.displayName = "DynamicTileLayer";
 
-const MapDisplay = React.memo(({ geoLayers, activeLayers, selectedBaseMap = 'satellite' }) => {
-  const onEachFeature = React.useCallback((feature, layerObj) => {
-    if (feature.properties?.name) {
-      layerObj.bindPopup(feature.properties.name);
-    }
-  }, []);
+/*Search Control */
+const SearchControl = () => {
+  const map = useMap();
 
-  return (
-    <div 
-      data-testid="map-display" 
-      className="h-full w-full lg:w-[70%] bg-white shadow-md rounded p-1"
-    >
-      <MapContainer
-        center={[0, 0]}
-        zoom={2}
-        scrollWheelZoom
-        zoomControl={false}
-        className="w-full h-full"
+  React.useEffect(() => {
+    const provider = new OpenStreetMapProvider();
+    const geoSearch = new GeoSearchControl({
+      provider,
+      style: "bar",
+      autoComplete: true,
+      autoCompleteDelay: 250,
+      showMarker: true,
+      showPopup: false,
+      retainZoomLevel: false,
+      animateZoom: true,
+      keepResult: true,
+    });
+
+    map.addControl(geoSearch);
+
+    // Toggle Button
+    const toggle = L.control({ position: "topleft" });
+    toggle.onAdd = () => {
+      const btn = L.DomUtil.create("button", "search-toggle");
+      btn.innerHTML = "🔍";
+      btn.title = "Toggle Search";
+
+      Object.assign(btn.style, {
+        backgroundColor: "#fff",
+        border: "1px solid #ccc",
+        borderRadius: "6px",
+        width: "36px",
+        height: "36px",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "18px",
+        boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
+        zIndex: "9999",
+      });
+
+      btn.onmouseenter = () => (btn.style.backgroundColor = "#f5f5f5");
+      btn.onmouseleave = () => (btn.style.backgroundColor = "#fff");
+
+      let visible = true;
+      btn.onclick = () => {
+        if (visible) map.removeControl(geoSearch);
+        else map.addControl(geoSearch);
+        visible = !visible;
+      };
+
+      return btn;
+    };
+
+    toggle.addTo(map);
+
+    return () => {
+      map.removeControl(geoSearch);
+      map.removeControl(toggle);
+    };
+  }, [map]);
+
+  return null;
+};
+const MapDisplay = React.memo(
+  ({ geoLayers, activeLayers, selectedBaseMap = "satellite" }) => {
+    const onEachFeature = React.useCallback((feature, layerObj) => {
+      if (feature.properties?.name) {
+        layerObj.bindPopup(feature.properties.name);
+      }
+    }, []);
+
+    return (
+      <div
+        data-testid="map-display"
+        className="h-full w-full lg:w-[70%] bg-white shadow-md rounded p-1"
       >
-        <DynamicTileLayer selectedBaseMap={selectedBaseMap} />
+        <MapContainer
+          center={[0, 0]}
+          zoom={2}
+          scrollWheelZoom
+          zoomControl={false}
+          className="w-full h-full"
+        >
+          <DynamicTileLayer selectedBaseMap={selectedBaseMap} />
 
-        {geoLayers.map((layer) =>
-          activeLayers[layer.id] && (
-            <GeoJSON
-              key={layer.id}
-              data={layer.data}
-              style={GEOJSON_STYLE}
-              onEachFeature={onEachFeature}
-            />
-          )
-        )}
+          {geoLayers.map(
+            (layer) =>
+              activeLayers[layer.id] && (
+                <GeoJSON
+                  key={layer.id}
+                  data={layer.data}
+                  style={GEOJSON_STYLE}
+                  onEachFeature={onEachFeature}
+                />
+              )
+          )}
 
-        <ZoomToLayers geoLayers={geoLayers} activeLayers={activeLayers} />
-        <CustomControls selectedBaseMap={selectedBaseMap} />
-      </MapContainer>
-    </div>
-  );
-});
+          <ZoomToLayers geoLayers={geoLayers} activeLayers={activeLayers} />
+          <CustomControls selectedBaseMap={selectedBaseMap} />
+          <SearchControl />
+        </MapContainer>
+      </div>
+    );
+  }
+);
 
-MapDisplay.displayName = 'MapDisplay';
+MapDisplay.displayName = "MapDisplay";
 
 export default MapDisplay;
